@@ -1,27 +1,33 @@
-# ItcSolutionsTestTask
+# ITC Solutions test task
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9.
+This project created for recruiting test task.
 
-## Development server
+Angular 6 with UI-Router.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Task:
+Create nested pages with 2 more pages at the second level.  
+Navigation via side menu.
 
-## Code scaffolding
+Pages at the second level:
+1. Table
+2. Plug
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The table should contain next columns:
 
-## Build
+- id: number
+- full name: string
+- sex: male/female (edit via radio button)
+- date of birth: date
+- married: boolean (edit via checkbox)
+- university: string (edit via select list with 3-4 random options)
+- phone: string (edit via text field with a mask)
+- any other optional
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Each row should have an opportunity to be edited and deleted. Edit mode transforms text from cell to form controls.
+Also there is an opportunity to add new row.
 
-## Running unit tests
+Record saving should be faked like pseudo service call(e.g. via RxJS from().pipe(delay(2000)).subscribe())
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Additional requirements:
+- create/edit form must have validation, error handling etc
+- adaptive layout
