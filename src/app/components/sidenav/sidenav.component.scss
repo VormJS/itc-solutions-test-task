@@ -1,0 +1,16 @@
+$sideNavWidth: 180px;
+$sideNavPadding: 10px;
+
+.active {
+  font-weight: bold;
+}
+.sidenav {
+  padding: $sideNavPadding;
+  width: $sideNavWidth;
+  position: fixed;
+  background-color: whitesmoke;
+}
+.spacer {
+  margin-left: $sideNavWidth + 2 * $sideNavPadding;
+  float: left;
+}
