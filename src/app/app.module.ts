@@ -18,6 +18,9 @@ import { SexToEmojiPipe } from './helpers/sex-to-emoji.pipe';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
+import { MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
+import { MondayDateAdapter } from './helpers/monday-date-adapter';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +41,10 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     NgxMaskModule.forRoot(),
     FormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: DateAdapter, useClass: MondayDateAdapter },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
