@@ -43,7 +43,6 @@ export class TableComponent implements OnInit {
     this.dataStorageService.people.subscribe(data => {
       this.peopleList.data = [...data];
     });
-    this.dataStorageService.getPeople();
     this.universities = universityList;
   }
 
@@ -87,9 +86,7 @@ export class TableComponent implements OnInit {
   abortEdit(): void {
     //deletes new row from data source
     if (this.deleteRowOnEditAbort) {
-      const recordIndexToDelete = this.peopleList.data.findIndex(record => record.id == this.editRow.id)
-      this.peopleList.data.splice(recordIndexToDelete, 1)
-      this.peopleList.sort = this.sort // hack for table re-render
+      this.dataStorageService.refreshData()
       this.deleteRowOnEditAbort = false;
     }
     this.editRow = new Person()

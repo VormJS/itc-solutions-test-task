@@ -1,186 +1,188 @@
-<mat-form-field>
-  <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
-
 <div class="table-container">
-  <form [formGroup]="rowForm" (ngSubmit)="saveRecord()">
-    <table mat-table [dataSource]="peopleList" matSort>
+  <mat-form-field>
+    <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display buttons for each row till edit-->
-          <ng-container *ngIf="!editRow.id && row.id!==editRow.id">
-            <button type="button" mat-icon-button>
-              <mat-icon matTooltip="Edit record" (click)="editRecord(row)" aria-label="edit button">
-                edit
-              </mat-icon>
-            </button>
-            <button type="button" mat-icon-button>
-              <mat-icon matTooltip="Delete record" (click)="deleteRecord(row)" aria-label="delete button">
-                delete
-              </mat-icon>
-            </button>
-          </ng-container>
-          <!-- edit confirm buttons -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <button type="button" mat-icon-button [disabled]="!rowForm.valid" (click)="saveRecord()">
-              <mat-icon matTooltip="Confirm" aria-label="confirm button">
-                done
-              </mat-icon>
-            </button>
-            <button type="button" mat-icon-button>
-              <mat-icon matTooltip="Cancel" (click)="abortEdit()" aria-label="cancel button">
-                clear
-              </mat-icon>
-            </button>
-          </ng-container>
-          <!-- edit confirm -->
-        </td>
+  <div class="table-people">
+    <form [formGroup]="rowForm" (ngSubmit)="saveRecord()">
+      <table mat-table [dataSource]="peopleList" matSort>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display buttons for each row till edit-->
+            <ng-container *ngIf="!editRow.id && row.id!==editRow.id">
+              <button type="button" mat-icon-button>
+                <mat-icon matTooltip="Edit record" (click)="editRecord(row)" aria-label="edit button">
+                  edit
+                </mat-icon>
+              </button>
+              <button type="button" mat-icon-button>
+                <mat-icon matTooltip="Delete record" (click)="deleteRecord(row)" aria-label="delete button">
+                  delete
+                </mat-icon>
+              </button>
+            </ng-container>
+            <!-- edit confirm buttons -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <button type="button" mat-icon-button [disabled]="!rowForm.valid" (click)="saveRecord()">
+                <mat-icon matTooltip="Confirm" aria-label="confirm button">
+                  done
+                </mat-icon>
+              </button>
+              <button type="button" mat-icon-button>
+                <mat-icon matTooltip="Cancel" (click)="abortEdit()" aria-label="cancel button">
+                  clear
+                </mat-icon>
+              </button>
+            </ng-container>
+            <!-- edit confirm -->
+          </td>
+        </ng-container>
+
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
+
+        <!-- Full Name Column -->
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.fullName}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-form-field>
+                <input matInput placeholder="Full Name" formControlName="fullName">
+                <mat-error *ngIf="hasError('fullName', 'required')">Can't be empty</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Sex Column -->
+        <ng-container matColumnDef="sex">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sex </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.sex | sexToEmoji}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-radio-group formControlName="sex">
+                <mat-radio-button matTooltip="Male" value="male">👨</mat-radio-button>
+                <mat-radio-button matTooltip="Female" value="female">👩</mat-radio-button>
+                <mat-error *ngIf="hasError('sex', 'required')">Can't be empty</mat-error>
+              </mat-radio-group>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Date of Birth Column -->
+        <ng-container matColumnDef="dateOfBirth">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.dateOfBirth | date:"dd/MM/yy"}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-form-field>
+                <input matInput [matDatepicker]="dateOfBirth" formControlName="dateOfBirth"
+                  placeholder="Choose Date of Birth">
+                <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfBirth></mat-datepicker>
+                <mat-error *ngIf="hasError('dateOfBirth', 'required')">Can't be empty</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Married Column -->
+        <ng-container matColumnDef="married">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Married </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.married | booleanToEmoji}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-checkbox matTooltip="Married" formControlName="married"></mat-checkbox>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- University Column -->
+        <ng-container matColumnDef="university">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> University </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.university}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-form-field>
+                <mat-select placeholder="University" formControlName="university">
+                  <mat-option *ngIf="editRow.university" [value]="editRow.university">
+                    {{editRow.university}}
+                  </mat-option>
+                  <mat-option *ngFor="let university of universities" [value]="university.title">
+                    {{university.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('university', 'required')">Can't be empty</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+          <td mat-cell *matCellDef="let row">
+            <!-- display -->
+            <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
+              <p> {{row.phone}} </p>
+            </ng-container>
+            <!-- edit -->
+            <ng-container *ngIf="editRow.id && row.id===editRow.id">
+              <mat-form-field>
+                <mat-label>Phone</mat-label>
+                <span matPrefix>+7 &nbsp;</span>
+                <input matInput type="tel" placeholder="(000) 000-00-00" formControlName="phone" mask='(000) 000-00-00'
+                  required>
+                <mat-error *ngIf="hasError('phone', 'required')">Can't be empty</mat-error>
+                <mat-error *ngIf="hasError('phone', 'Mask error')">Invalid number</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <!-- disabled when edit mode on -->
+      <ng-container *ngIf="!editRow.id">
+        <button type="button" mat-stroked-button id="add-button" (click)="addRecord()">
+          <mat-icon aria-label="add icon">
+            add
+          </mat-icon>
+          <span>Add Record</span>
+        </button>
       </ng-container>
-
-
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container>
-
-      <!-- Full Name Column -->
-      <ng-container matColumnDef="fullName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.fullName}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-form-field>
-              <input matInput placeholder="Full Name" formControlName="fullName">
-              <mat-error *ngIf="hasError('fullName', 'required')">Can't be empty</mat-error>
-            </mat-form-field>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- Sex Column -->
-      <ng-container matColumnDef="sex">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sex </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.sex | sexToEmoji}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-radio-group formControlName="sex">
-              <mat-radio-button matTooltip="Male" value="male">👨</mat-radio-button>
-              <mat-radio-button matTooltip="Female" value="female">👩</mat-radio-button>
-              <mat-error *ngIf="hasError('sex', 'required')">Can't be empty</mat-error>
-            </mat-radio-group>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- Date of Birth Column -->
-      <ng-container matColumnDef="dateOfBirth">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.dateOfBirth | date:"dd/MM/yy"}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-form-field>
-              <input matInput [matDatepicker]="dateOfBirth" formControlName="dateOfBirth"
-                placeholder="Choose Date of Birth">
-              <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
-              <mat-datepicker #dateOfBirth></mat-datepicker>
-              <mat-error *ngIf="hasError('dateOfBirth', 'required')">Can't be empty</mat-error>
-            </mat-form-field>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- Married Column -->
-      <ng-container matColumnDef="married">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Married </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.married | booleanToEmoji}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-checkbox matTooltip="Married" formControlName="married"></mat-checkbox>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- University Column -->
-      <ng-container matColumnDef="university">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> University </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.university}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-form-field>
-              <mat-select placeholder="University" formControlName="university">
-                <mat-option *ngIf="editRow.university" [value]="editRow.university">
-                  {{editRow.university}}
-                </mat-option>
-                <mat-option *ngFor="let university of universities" [value]="university.title">
-                  {{university.title}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="hasError('university', 'required')">Can't be empty</mat-error>
-            </mat-form-field>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- Phone Column -->
-      <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- display -->
-          <ng-container *ngIf="!editRow.id || row.id!==editRow.id">
-            <p> {{row.phone}} </p>
-          </ng-container>
-          <!-- edit -->
-          <ng-container *ngIf="editRow.id && row.id===editRow.id">
-            <mat-form-field>
-              <mat-label>Phone</mat-label>
-              <span matPrefix>+7 &nbsp;</span>
-              <input matInput type="tel" placeholder="(000) 000-00-00" formControlName="phone" mask='(000) 000-00-00'
-                required>
-              <mat-error *ngIf="hasError('phone', 'required')">Can't be empty</mat-error>
-              <mat-error *ngIf="hasError('phone', 'Mask error')">Invalid number</mat-error>
-            </mat-form-field>
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <!-- disabled when edit mode on -->
-    <ng-container *ngIf="!editRow.id">
-      <button type="button" mat-stroked-button id="add-button" (click)="addRecord()">
-        <mat-icon aria-label="add icon">
-          add
-        </mat-icon>
-        <span>Add Record</span>
-      </button>
-    </ng-container>
-  </form>
+    </form>
+  </div>
 </div>

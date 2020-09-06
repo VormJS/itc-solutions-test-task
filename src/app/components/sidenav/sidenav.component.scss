@@ -1,6 +1,10 @@
 $sideNavWidth: 180px;
 $sideNavPadding: 10px;
 
+.fixed-panel {
+  position: fixed;
+  z-index: 1;
+}
 .active {
   font-weight: bold;
 }
@@ -9,8 +13,35 @@ $sideNavPadding: 10px;
   width: $sideNavWidth;
   position: fixed;
   background-color: whitesmoke;
+  transition: 0.4s;
 }
 .spacer {
   margin-left: $sideNavWidth + 2 * $sideNavPadding;
   float: left;
+  transition: 0.4s;
+}
+.invisible {
+  overflow: hidden;
+  width: 0px;
+  margin: 0px;
+  padding: 0px;
+  // display: none;
+}
+#sidenav-button {
+  margin: 10px;
+  color: black;
+  background-color: transparent;
+}
+
+@media (min-width: 1024px) {
+  .sidenav {
+    padding: $sideNavPadding;
+    width: $sideNavWidth;
+  }
+  .spacer {
+    margin-left: $sideNavWidth + 2 * $sideNavPadding;
+  }
+  #sidenav-button {
+    display: none;
+  }
 }

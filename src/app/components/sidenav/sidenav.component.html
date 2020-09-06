@@ -1,9 +1,14 @@
-<div class="sidenav">
-  <mat-nav-list>
-    <a mat-list-item uiSref="home" uiSrefActive="active">Home</a>
-    <a mat-list-item uiSref="pages" uiSrefActive="active">Pages</a>
-    <a mat-list-item uiSref="pages.table" uiSrefActive="active">&nbsp;&nbsp;Table</a>
-    <a mat-list-item uiSref="pages.plug" uiSrefActive="active">&nbsp;&nbsp;Plug</a>
-  </mat-nav-list>
+<div class="fixed-panel">
+  <button mat-mini-fab id="sidenav-button" (click)="sidenavHidden = !sidenavHidden">
+    <mat-icon aria-label="Toggle navbar button">menu</mat-icon>
+  </button>
+  <div class="sidenav" [class.invisible]="sidenavHidden">
+    <mat-nav-list>
+      <a mat-list-item uiSref="home" uiSrefActive="active">Home</a>
+      <a mat-list-item uiSref="pages" uiSrefActive="active">Pages</a>
+      <a mat-list-item uiSref="pages.table" uiSrefActive="active">&nbsp;&nbsp;Table</a>
+      <a mat-list-item uiSref="pages.plug" uiSrefActive="active">&nbsp;&nbsp;Plug</a>
+    </mat-nav-list>
+  </div>
 </div>
-<div class="spacer"></div>
+<div class="spacer" [class.invisible]="sidenavHidden"></div>
