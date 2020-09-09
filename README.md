@@ -31,3 +31,5 @@ Record saving should be faked like pseudo service call(e.g. via RxJS from().pipe
 Additional requirements:
 - create/edit form must have validation, error handling etc
 - adaptive layout
+
+live demo: https://itc-solutions-test-task.herokuapp.com/
