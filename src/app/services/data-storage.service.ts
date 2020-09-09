@@ -30,6 +30,7 @@ export class DataStorageService {
     return of(newPerson).pipe(
       delay(1000),
       map(person => {
+        person.id = Math.max(...this._peopleStore.map((record: Person) => record.id), 1);
         this._peopleStore.push(person);
         this._people.next(this._peopleStore);
       })).subscribe();

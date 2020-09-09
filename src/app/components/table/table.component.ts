@@ -60,8 +60,11 @@ export class TableComponent implements OnInit {
   }
   addRecord() {
     this.clearFilter()
-    const lastID = this.peopleList.data[this.peopleList.data.length - 1].id
-    const newPerson = new Person
+    let lastID = 0;
+    if (this.peopleList.data.length) {
+      lastID = this.peopleList.data[this.peopleList.data.length - 1].id
+    }
+    const newPerson = new Person()
     newPerson.id = lastID + 1
     this.peopleList.data.push(newPerson)
     this.deleteRowOnEditAbort = true;

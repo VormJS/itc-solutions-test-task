@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PagesComponent } from './pages.component';
+import { MaterialModule } from 'src/app/material.module';
+import { By } from '@angular/platform-browser';
 
 describe('PagesComponent', () => {
   let component: PagesComponent;
@@ -8,9 +10,9 @@ describe('PagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PagesComponent ]
-    })
-    .compileComponents();
+      declarations: [PagesComponent],
+      imports: [MaterialModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +23,8 @@ describe('PagesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should contain "Pages" text', async () => {
+    expect(fixture.debugElement.query(By.css('.page-container')).nativeElement.textContent).toContain("Pages");
   });
 });
